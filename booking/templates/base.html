@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kakuma Refugee Camp</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #82aaff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover,
+        a:focus {
+            color: #bb86fc;
+            outline: none;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(18, 18, 18, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            user-select: none;
+        }
+
+        nav {
+            margin-top: 1rem;
+        }
+
+        nav .nav-items {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav .nav-item a {
+            color: #e0e0e0;
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav .nav-item a:hover,
+        nav .nav-item a:focus {
+            background-color: rgba(187, 134, 252, 0.25);
+            color: #bb86fc;
+            outline: none;
+        }
+
+        main {
+            flex: 1 0 auto;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .block-containers {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .container {
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
+            flex: 1;
+            text-align: center;
+            color: #ccc;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(187, 134, 252, 0.7);
+            color: #bb86fc;
+        }
+
+        .works-container {
+            margin-top: 2rem;
+            background: #1e1e1e;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .works-container h2 {
+            margin-bottom: 1rem;
+            color: #bb86fc;
+        }
+
+        .list-items {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+
+        footer {
+            background-color: #1a1a1a;
+            color: #888;
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 2rem;
+            user-select: none;
+        }
+
+        @media (max-width: 600px) {
+            nav .nav-items {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .block-containers {
+                flex-direction: column;
+            }
+
+            .container {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>KAKUMA REFUGEE CAMP</h1>
+        <nav>
+            <ul class="nav-items">
+                <li class="nav-item"><a href="/">Dashboard</a></li>
+                <li class="nav-item"><a href="">Activities</a></li>
+                <li class="nav-item"><a href="">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <div class="block-containers">
+            <a href="/register/" class="container">
+                New Arrival Reg
+            </a>
+            <a href="/booking/" class="container">
+                Lost ID Report
+            </a>
+            <a href="/report-lost-id/" class="container">
+                Book Birth Cert
+            </a>
+        </div>
+        <br><br>
+        <div class="works-container">
+            <h2>How It Works</h2>
+            <ul class="list-items">
+                <li>Register online or on-site</li>
+                <li>Receive your ID and refugee number</li>
+                <li>Access healthcare, food, shelter</li>
+            </ul>
+        </div>
+        {% endblock %}
+    </main>
+
+    <footer>
+        &copy; 2025 Kakuma Refugee Camp. All rights reserved.
+    </footer>
+</body>
+
+</html>
