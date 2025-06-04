@@ -1,0 +1,25 @@
+{%extends 'manage_dashboard.html'%}
+
+
+{%block content%}
+<h1>Manage Bookings</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Refugee</th>
+            <th>Booking Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.refugee.full_name }}</td>
+            <td>{{ booking.booking_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'manage_dashboard' %}">Back to Dashboard</a>
+
+
+{%endblock%}

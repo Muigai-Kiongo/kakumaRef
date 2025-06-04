@@ -4,6 +4,9 @@ from booking.forms import RefugeeRegistrationForm, BirthCertificateBookingForm, 
 
 
 def manage_dashboard(request):
+    context=[
+        
+    ]
     return render(request, 'manage_dashboard.html')
 
 def manage_refugees(request):

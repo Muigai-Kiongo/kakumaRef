@@ -214,39 +214,23 @@
         <h1>KAKUMA REFUGEE CAMP</h1>
         <nav>
             <ul class="nav-items">
-                <li class="nav-item"><a href="/">Dashboard</a></li>
-                <li class="nav-item"><a href="">Activities</a></li>
-                <li class="nav-item"><a href="">Reports</a></li>
+                <li class="nav-item"><a href="{% url 'manage_refugees' %}">Manage Refugees</a></li>
+                <li class="nav-item"><a href="{% url 'manage_bookings' %}">Manage Bookings</a></li>
+                <li class="nav-item"><a href="{% url 'manage_reports' %}">Manage Lost ID Reports</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        {% block content %}
-        <div class="block-containers">
-            <a href="/register/" class="container">
-                New Arrival Reg
-            </a>
-            <a href="/booking/" class="container">
-                Book Birth Cert
-            </a>
-            <a href="/report-lost-id/" class="container">
-                Lost ID Report
+        {%block content%}
 
-            </a>
-        </div>
-        <br><br>
-        <div class="works-container">
-            <h2>How It Works</h2>
-            <ul class="list-items">
-                <li>Register online or on-site</li>
-                <li>Receive your ID and refugee number</li>
-                <li>Access healthcare, food, shelter</li>
-            </ul>
-        </div>
-        {% endblock %}
+        <h2>Overview</h2>
+
+
+
+
+        {%endblock%}
     </main>
-
     <footer>
         &copy; 2025 Kakuma Refugee Camp. All rights reserved.
     </footer>

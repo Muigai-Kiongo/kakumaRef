@@ -1,0 +1,35 @@
+{%extends 'manage_dashboard.html'%}
+
+{%block content%}
+
+<h1>Manage Refugees</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Nationality</th>
+            <th>Contact Info</th>
+            <th>Address</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for refugee in refugees %}
+        <tr>
+            <td>{{ refugee.full_name }}</td>
+            <td>{{ refugee.date_of_birth }}</td>
+            <td>{{ refugee.gender }}</td>
+            <td>{{ refugee.nationality }}</td>
+            <td>{{ refugee.contact_info }}</td>
+            <td>{{ refugee.address }}</td>
+            <td>{{ refugee.notes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'manage_dashboard' %}">Back to Dashboard</a>
+
+
+{%endblock%}

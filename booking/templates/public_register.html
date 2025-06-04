@@ -2,10 +2,28 @@
 
 {%block content%}
 <h2>Register New Refugee</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+<div class="form-container">
+    <a href="/report-lost-id/" class="nav-button"> <- </a>
+            <form method="POST" class="works-container">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Book</button>
+            </form>
+            <a href="/booking/" class="nav-button"> -></a>
+</div>
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-button {
+        font-size: xx-large;
+        font-weight: 600;
+
+    }
+</style>
 
 {%endblock%}
