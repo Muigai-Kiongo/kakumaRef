@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Register</h2>
+<div class="form-container">
+    <form method="POST" class="works-container" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }} <!-- Render the username field directly -->
+            {% if form.username.errors %}
+            <div class="form-error">{{ form.username.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }} <!-- Render the password1 field directly -->
+
+            {% if form.password1.errors %}
+            <div class="form-error">{{ form.password1.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }} <!-- Render the password2 field directly -->
+
+            {% if form.password2.errors %}
+            <div class="form-error">{{ form.password2.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="submit-button">Register</button>
+
+        <p style="color:#ccc; margin-top: 1rem;">
+            Already have an account? <a href="{% url 'login' %}">Login here</a>
+        </p>
+    </form>
+
+</div>
+{% endblock %}

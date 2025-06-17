@@ -1,239 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kakuma Refugee Camp</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+{% block content %}
+<h1>Staff Dashboard</h1>
+<div class="summary-container">
+    <div class="summary-box">
+        <h2>Total Refugees</h2>
+        <p>{{ total_refugees }}</p>
+        <a href="{% url 'manage_refugees' %}" class="manage-link">Manage Refugees</a>
+    </div>
+    <div class="summary-box">
+        <h2>Total Bookings</h2>
+        <p>{{ total_bookings }}</p>
+        <a href="{% url 'manage_bookings' %}" class="manage-link">Manage Bookings</a>
+    </div>
+    <div class="summary-box">
+        <h2>Total Lost Documents</h2>
+        <p>{{ total_lost_reports }}</p>
+        <a href="{% url 'manage_lost_documents' %}" class="manage-link">Manage Lost Documents</a>
+    </div>
+</div>
 
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+<style>
+    .summary-container {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
 
-        a {
-            color: #82aaff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+    .summary-box {
+        background: #1e1e1e;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 220px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        color: #ccc;
+    }
 
-        a:hover,
-        a:focus {
-            color: #bb86fc;
-            outline: none;
-        }
+    .summary-box h2 {
+        color: #bb86fc;
+        margin-bottom: 1rem;
+    }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 1rem 2rem;
-            background: rgba(18, 18, 18, 0.75);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            color: #e0e0e0;
-            display: flex;
-            flex-direction: column;
-        }
+    .manage-link {
+        color: #82aaff;
+        display: inline-block;
+        margin-top: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
 
-        header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            user-select: none;
-        }
-
-        nav {
-            margin-top: 1rem;
-        }
-
-        nav .nav-items {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        nav .nav-item a {
-            color: #e0e0e0;
-            font-weight: 600;
-            padding: 0.5rem 0.75rem;
-            border-radius: 4px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        nav .nav-item a:hover,
-        nav .nav-item a:focus {
-            background-color: rgba(187, 134, 252, 0.25);
-            color: #bb86fc;
-            outline: none;
-        }
-
-        main {
-            flex: 1 0 auto;
-            padding: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .block-containers {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .container {
-            background: #1e1e1e;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
-            flex: 1;
-            text-align: center;
-            color: #ccc;
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(187, 134, 252, 0.7);
-            color: #bb86fc;
-        }
-
-        .works-container {
-            margin-top: 2rem;
-            background: #1e1e1e;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
-        }
-
-        .works-container h2 {
-            margin-bottom: 1rem;
-            color: #bb86fc;
-        }
-
-        .list-items {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-        }
-
-        footer {
-            background-color: #1a1a1a;
-            color: #888;
-            text-align: center;
-            padding: 1rem 0;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-            margin-top: 2rem;
-            user-select: none;
-        }
-
-        @media (max-width: 600px) {
-            nav .nav-items {
-                gap: 1rem;
-                flex-wrap: wrap;
-            }
-
-            header {
-                padding: 1rem;
-            }
-
-            main {
-                padding: 1rem;
-            }
-
-            .block-containers {
-                flex-direction: column;
-            }
-
-            .container {
-                margin-bottom: 1rem;
-            }
-        }
-
-        /* styles.css */
-
-        form {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .form-control:focus {
-            border-color: #80bdff;
-            outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <h1>KAKUMA REFUGEE CAMP</h1>
-        <nav>
-            <ul class="nav-items">
-                <li class="nav-item"><a href="{% url 'manage_refugees' %}">Manage Refugees</a></li>
-                <li class="nav-item"><a href="{% url 'manage_bookings' %}">Manage Bookings</a></li>
-                <li class="nav-item"><a href="{% url 'manage_reports' %}">Manage Lost ID Reports</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        {%block content%}
-
-        <h2>Overview</h2>
-
-
-
-
-        {%endblock%}
-    </main>
-    <footer>
-        &copy; 2025 Kakuma Refugee Camp. All rights reserved.
-    </footer>
-</body>
-
-</html>
+    .manage-link:hover {
+        color: #bb86fc;
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

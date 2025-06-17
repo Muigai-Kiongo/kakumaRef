@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lost Documents Reports</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Refugee</th>
+            <th>Document Type</th>
+            <th>Lost Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for report in lost_reports %}
+        <tr>
+            <td>{{ report.refugee.full_name }}</td>
+            <td>{{ report.get_document_type_display }}</td>
+            <td>{{ report.lost_date }}</td>
+            <td>{{ report.get_status_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="text-align:center;">No lost document reports found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

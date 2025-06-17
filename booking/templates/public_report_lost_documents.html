@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Report Lost Documents</h2>
+<div class="form-container">
+    <a href="/booking/" class="nav-button left" aria-label="Go to Booking Form"></a>
+
+    <form method="POST" class="works-container">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ report_form.refugee.id_for_label }}">Refugee:</label>
+            {{ report_form.refugee }}
+            {% if report_form.refugee.errors %}
+            <div class="form-error">
+                {{ report_form.refugee.errors|striptags }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ report_form.document_type.id_for_label }}">Document Type:</label>
+            {{ report_form.document_type }}
+            {% if report_form.document_type.errors %}
+            <div class="form-error">
+                {{ report_form.document_type.errors|striptags }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ report_form.lost_date.id_for_label }}">Lost Date:</label>
+            {{ report_form.lost_date }}
+            {% if report_form.lost_date.errors %}
+            <div class="form-error">
+                {{ report_form.lost_date.errors|striptags }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ report_form.description.id_for_label }}">Description:</label>
+            {{ report_form.description }}
+            {% if report_form.description.errors %}
+            <div class="form-error">
+                {{ report_form.description.errors|striptags }}
+            </div>
+            {% endif %}
+        </div>
+
+        {{ report_form.status.as_hidden }}
+
+        <button type="submit" class="submit-button">Report Lost Document</button>
+    </form>
+
+    {% if report_form.document_type.value == 'ID' %}
+    <form method="POST" class="works-container">
+        {% csrf_token %}
+        <h3>Lost ID Details</h3>
+        <div class="form-group">
+            <label for="{{ id_form.id_number.id_for_label }}">ID Number:</label>
+            {{ id_form.id_number }}
+            {% if id_form.id_number.errors %}
+            <div class="form-error">
+                {{ id_form.id_number.errors|striptags }}
+            </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="submit-button">Submit ID Details</button>
+    </form>
+    {% endif %}
+
+    {% if report_form.document_type.value == 'MANIFEST' %}
+    <form method="POST" class="works-container">
+        {% csrf_token %}
+        <h3>Manifest Details</h3>
+        <div class="form-group">
+            <label for="{{ manifest_form.manifest_number.id_for_label }}">Manifest Number:</label>
+            {{ manifest_form.manifest_number }}
+            {% if manifest_form.manifest_number.errors %}
+            <div class="form-error">
+                {{ manifest_form.manifest_number.errors|striptags }}
+            </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="submit-button">Submit Manifest Details</button>
+    </form>
+    {% endif %}
+
+    <a href="/register/" class="nav-button right" aria-label="Go to Register Refugee Form"></a>
+</div>
+
+{% endblock %}

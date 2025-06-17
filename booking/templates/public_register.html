@@ -1,29 +1,59 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
-{%block content%}
+{% block content %}
 <h2>Register New Refugee</h2>
 <div class="form-container">
-    <a href="/report-lost-id/" class="nav-button"> <- </a>
-            <form method="POST" class="works-container">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Book</button>
-            </form>
-            <a href="/booking/" class="nav-button"> -></a>
+    <a href="/report-lost-docs/" class="nav-button left" aria-label="Go to Report Lost Documents Form"></a>
+    <form method="POST" class="works-container">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="form-error">
+            <ul>
+                {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.full_name.id_for_label }}">Full Name:</label>
+            {{ form.full_name }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth:</label>
+            {{ form.date_of_birth }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.arrival_date.id_for_label }}">Arrival Date:</label>
+            {{ form.arrival_date }}
+        </div>
+
+
+        <div class="form-group">
+            <label for="{{ form.gender.id_for_label }}">Gender:</label>
+            {{ form.gender }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.nationality.id_for_label }}">Nationality:</label>
+            {{ form.nationality }}
+        </div>
+
+        <button type="submit" class="submit-button">Register</button>
+    </form>
+    <a href="/booking/" class="nav-button right" aria-label="Go to Booking Form"></a>
 </div>
 
 <style>
-    .form-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .nav-button {
-        font-size: xx-large;
-        font-weight: 600;
-
-    }
+    /* Add any additional styles here if needed */
 </style>
-
-{%endblock%}
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ action }} Booking</h1>
+
+<div class="form-container">
+    <form method="POST" class="works-container">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+            <div class="form-error">{{ field.errors|striptags }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="submit-button">{{ action }}</button>
+        <a href="{% url 'manage_bookings' %}" class="cancel-button">Cancel</a>
+    </form>
+</div>
+
+<style>
+    /* reuse styles from edit_refugee.html */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #bb86fc;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #444;
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        box-sizing: border-box;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: #bb86fc;
+        outline: none;
+        box-shadow: 0 0 5px #bb86fc;
+    }
+
+    .submit-button {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        color: white;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 1rem;
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+
+    .cancel-button {
+        color: #82aaff;
+        text-decoration: none;
+        font-weight: 600;
+        line-height: 2.6rem;
+    }
+
+    .cancel-button:hover {
+        color: #bb86fc;
+    }
+
+    .form-error {
+        margin-top: 0.3rem;
+        color: #f44336;
+        font-size: 0.9rem;
+    }
+
+    .works-container {
+        background: #1e1e1e;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
+        color: #ccc;
+        max-width: 600px;
+        margin: auto;
+    }
+</style>
+{% endblock %}

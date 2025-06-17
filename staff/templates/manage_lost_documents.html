@@ -1,53 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Manage Refugees</h1>
+<h1>Manage Lost Documents Reports</h1>
 
-<form method="GET" action="{% url 'manage_refugees' %}" class="search-form">
-    <input type="text" name="search" value="{{ search_query }}" placeholder="Search refugees..." class="search-input" />
+<form method="GET" action="{% url 'manage_lost_documents' %}" class="search-form">
+    <input type="text" name="search" value="{{ search_query }}" placeholder="Search reports..." class="search-input" />
     <button type="submit" class="search-button">Search</button>
-    <a href="{% url 'add_refugee' %}" class="add-button">+ Add Refugee</a>
+    <a href="{% url 'add_lost_document_report' %}" class="add-button">+ Add Report</a>
 </form>
 
 <table class="data-table">
     <thead>
         <tr>
-            <th>Full Name</th>
-            <th>Nationality</th>
-            <th>Arrival Date</th>
+            <th>Refugee</th>
+            <th>Document Type</th>
+            <th>Lost Date</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for refugee in refugees %}
+        {% for report in reports %}
         <tr>
-            <td>{{ refugee.full_name }}</td>
-            <td>{{ refugee.nationality }}</td>
-            <td>{{ refugee.arrival_date }}</td>
+            <td>{{ report.refugee.full_name }}</td>
+            <td>{{ report.get_document_type_display }}</td>
+            <td>{{ report.lost_date }}</td>
+            <td>{{ report.get_status_display }}</td>
             <td>
-                <a href="{% url 'edit_refugee' refugee.pk %}" class="action-link">Edit</a> |
-                <a href="{% url 'delete_refugee' refugee.pk %}" class="action-link delete-link">Delete</a>
+                <a href="{% url 'edit_lost_document_report' report.pk %}" class="action-link">Edit</a> |
+                <a href="{% url 'delete_lost_document_report' report.pk %}" class="action-link delete-link">Delete</a>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4" style="text-align:center;">No refugees found.</td>
+            <td colspan="5" style="text-align:center;">No lost document reports found.</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
 <div class="pagination">
-    {% if refugees.has_previous %}
-    <a href="?page={{ refugees.previous_page_number }}&search={{ search_query }}">&laquo; Prev</a>
+    {% if reports.has_previous %}
+    <a href="?page={{ reports.previous_page_number }}&search={{ search_query }}">&laquo; Prev</a>
     {% endif %}
-    <span>Page {{ refugees.number }} of {{ refugees.paginator.num_pages }}</span>
-    {% if refugees.has_next %}
-    <a href="?page={{ refugees.next_page_number }}&search={{ search_query }}">Next &raquo;</a>
+    <span>Page {{ reports.number }} of {{ reports.paginator.num_pages }}</span>
+    {% if reports.has_next %}
+    <a href="?page={{ reports.next_page_number }}&search={{ search_query }}">Next &raquo;</a>
     {% endif %}
 </div>
 
 <style>
+    /* reuse styles from manage_refugees.html */
     .search-form {
         margin-bottom: 1.5rem;
         display: flex;
@@ -133,4 +136,5 @@
         text-decoration: underline;
     }
 </style>
+
 {% endblock %}

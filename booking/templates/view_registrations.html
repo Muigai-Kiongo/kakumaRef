@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Registrations</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Nationality</th>
+            <th>Arrival Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registrations %}
+        <tr>
+            <td>{{ registration.full_name }}</td>
+            <td>{{ registration.nationality }}</td>
+            <td>{{ registration.arrival_date }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" style="text-align:center;">No registrations found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

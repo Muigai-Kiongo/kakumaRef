@@ -1,28 +1,30 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
-{%block content%}
+{% block content %}
 <h2>Book Birth Certificate</h2>
 <div class="form-container">
     <a href="/register/" class="nav-button"> <- </a>
             <form method="POST" class="works-container">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Book</button>
+
+                <div class="form-group">
+                    <label for="{{ form.refugee.id_for_label }}">Refugee:</label>
+                    {{ form.refugee }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.booking_date.id_for_label }}">Booking Date:</label>
+                    {{ form.booking_date }}
+                </div>
+                {{ form.status.as_hidden }}
+
+                <button type="submit" class="submit-button">Book</button>
             </form>
-            <a href="/report-lost-id/" class="nav-button"> -></a>
+
+            <a href="/report-lost-docs/" class="nav-button"> -></a>
 </div>
 
 <style>
-    .form-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
 
-    .nav-button {
-        font-size: xx-large;
-        font-weight: 600;
-
-    }
 </style>
-{%endblock%}
+{% endblock %}
