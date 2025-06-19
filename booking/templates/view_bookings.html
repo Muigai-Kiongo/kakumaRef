@@ -1,27 +1,33 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <h2>Bookings</h2>
+
+<div class="report-controls">
+  <form method="get" action="">
+    <input type="hidden" name="download" value="pdf" />
+    <button type="submit">Download PDF Report</button>
+  </form>
+</div>
+
 <table class="data-table">
-    <thead>
-        <tr>
-            <th>Refugee</th>
-            <th>Booking Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for booking in bookings %}
-        <tr>
-            <td>{{ booking.refugee.full_name }}</td>
-            <td>{{ booking.booking_date }}</td>
-            <td>{{ booking.get_status_display }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3" style="text-align:center;">No bookings found.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>Refugee</th>
+      <th>Booking Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.refugee.full_name }}</td>
+      <td>{{ booking.booking_date }}</td>
+      <td>{{ booking.get_status_display }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3" style="text-align: center">No bookings found.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 {% endblock %}

@@ -1,4 +1,10 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
+from datetime import timedelta
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from .utils import filter_by_timeframe  
 from .models import Refugee, BirthCertificateBooking, LostDocumentsReport
 from .forms import (RefugeeForm, BirthCertificateBookingForm, LostDocumentsReportForm,
                     LostIDDetailsForm, ManifestDetailsForm)
@@ -32,10 +38,13 @@ def book_birth_certificate(request):
         form = BirthCertificateBookingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('payment')
     else:
         form = BirthCertificateBookingForm()
     return render(request, 'public_booking.html', {'form': form})
+
+def payment(request):
+    return render(request, 'payment.html')
 
 def report_lost_documents(request):
     if request.method == 'POST':
@@ -88,13 +97,61 @@ def report_lost_documents(request):
 
 
 def view_registrations(request):
-    registrations = Refugee.objects.order_by('-registration_date')
-    return render(request, 'view_registrations.html', {'registrations': registrations})
+    timeframe = request.GET.get('timeframe', 'all')
+    registrations = filter_by_timeframe(
+        Refugee.objects.all(),
+        timeframe,
+        date_field='registration_date'
+    ).order_by('-registration_date')
+
+    if request.GET.get('download') == 'pdf':
+        html = render_to_string('pdf_reports/pdf_registrations.html', {'registrations': registrations})
+        pdf = HTML(string=html).write_pdf()
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="registrations.pdf"'
+        return response
+
+    return render(request, 'view_registrations.html', {
+        'registrations': registrations,
+        'timeframe': timeframe,  # Pass to template for UI
+    })
 
 def view_bookings(request):
-    bookings = BirthCertificateBooking.objects.select_related('refugee').order_by('-booking_date')
-    return render(request, 'view_bookings.html', {'bookings': bookings})
+    timeframe = request.GET.get('timeframe', 'all')
+    bookings = filter_by_timeframe(
+        BirthCertificateBooking.objects.select_related('refugee'),
+        timeframe,
+        date_field='booking_date'
+    ).order_by('-booking_date')
+
+    if request.GET.get('download') == 'pdf':
+        html = render_to_string('pdf_reports/pdf_bookings.html', {'bookings': bookings})
+        pdf = HTML(string=html).write_pdf()
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="bookings.pdf"'
+        return response
+
+    return render(request, 'view_bookings.html', {
+        'bookings': bookings,
+        'timeframe': timeframe,  # Pass to template for UI
+    })
 
 def view_lost_reports(request):
-    lost_reports = LostDocumentsReport.objects.select_related('refugee').order_by('-lost_date')
-    return render(request, 'view_lost_reports.html', {'lost_reports': lost_reports})
+    timeframe = request.GET.get('timeframe', 'all')
+    lost_reports = filter_by_timeframe(
+        LostDocumentsReport.objects.select_related('refugee'),
+        timeframe,
+        date_field='lost_date'
+    ).order_by('-lost_date')
+
+    if request.GET.get('download') == 'pdf':
+        html = render_to_string('pdf_reports/pdf_lost_reports.html', {'lost_reports': lost_reports})
+        pdf = HTML(string=html).write_pdf()
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="lost_reports.pdf"'
+        return response
+
+    return render(request, 'view_lost_reports.html', {
+        'lost_reports': lost_reports,
+        'timeframe': timeframe,  # Pass to template for UI
+    })
